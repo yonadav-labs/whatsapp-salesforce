@@ -1,0 +1,6 @@
+menv/
+img/
+ref/
+*.out
+*.log
+*.png
