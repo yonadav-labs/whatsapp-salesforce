@@ -19,7 +19,7 @@ def run():
     # print (driver.get_my_contacts())
     driver.subscribe_new_messages(NewMessageObserver())
     print("Waiting for new messages...")
-
+    driver.screenshot('./ref/12.png')
     """ Locks the main thread while the subscription in running """
     while True:
         time.sleep(60)
