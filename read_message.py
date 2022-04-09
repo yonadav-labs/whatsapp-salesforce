@@ -9,7 +9,7 @@ from config import *
 sf = Salesforce(username=username, password=password, security_token=security_token)
 
 def run():
-    driver = WhatsAPIDriver(extra_params={ 'executable_path': './geckodriver' }, loadstyles=True, headless=True)
+    driver = WhatsAPIDriver(extra_params={ 'executable_path': './geckodriver' }, loadstyles=True, headless=False)
     print("Waiting for QR")
     # driver.get_qr('qr.png')   # does not work 
     driver.screenshot('./ref/qr.png')
@@ -19,7 +19,7 @@ def run():
     time.sleep(5)
     driver.subscribe_new_messages(NewMessageObserver())
     print("Waiting for new messages...")
-    driver.screenshot('./ref/12.png')
+    # driver.screenshot('./ref/12.png')
     """ Locks the main thread while the subscription in running """
     while True:
         time.sleep(60)
@@ -29,8 +29,12 @@ class NewMessageObserver:
     def on_message_received(self, new_messages):
         for message in new_messages:
             if message.type == 'chat':
-                print("New message '{}' received from number {}".format(message.content, message.sender.id))
-                sf.Whatsapp_Message__c.create({ 'Message_Body__c': message.content, 'Phone__c': message.sender.id.split('@')[0]})
+                print("New message '{}' received from number {} to {}".format(message.content, message.sender_, message.receiver))
+                sf.Whatsapp_Message__c.create({ 
+                    'Message_Body__c': message.content, 
+                    'Phone__c': message.sender_,
+                    'Phone_2__c': message.receiver
+                })
             else:
                 print("New message of type '{}' received from number {}".format(message.type, message.sender.id))
 

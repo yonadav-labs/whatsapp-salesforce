@@ -57,6 +57,8 @@ class Message(WhatsappObject):
         self.id = js_obj["id"]
         self.type = js_obj["type"]
         self.sender = Contact(js_obj["sender"], driver) if js_obj["sender"] else False
+        self.sender_ = js_obj['sender']['id']['user'] if js_obj['sender'] else ''
+
         self.timestamp = datetime.fromtimestamp(js_obj["timestamp"])
         self.chat_id = js_obj['chatId']
 
@@ -66,6 +68,16 @@ class Message(WhatsappObject):
         elif self.type == 'revoked':
             self.content = ''
             self.safe_content = '...'
+
+        try:
+            if js_obj['isGroupMsg']:
+                self.receiver = ', '.join([ii['id']['user'] 
+                                           for ii in js_obj['chat']['groupMetadata']['participants']
+                                           if ii['id']['user'] != self.sender_])
+            else:
+                self.receiver = js_obj['to']['user']
+        except Exception:
+            self.receiver = ''
 
     def __repr__(self):
         return "<Message - {type} from {sender} at {timestamp}: {content}>".format(
