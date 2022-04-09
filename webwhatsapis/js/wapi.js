@@ -1065,8 +1065,8 @@ window.Store.Msg.off('add');
 sessionStorage.removeItem('saved_msgs');
 
 window.WAPI._newMessagesListener = window.Store.Msg.on('add', (newMessage) => {
-    if (newMessage && newMessage.isNewMsg && !newMessage.isSentByMe) {
-        let message = window.WAPI.processMessageObj(newMessage, false, false);
+    if (newMessage && newMessage.isNewMsg) {
+        let message = window.WAPI.processMessageObj(newMessage, true, false);
         if (message) {
             window.WAPI._newMessagesQueue.push(message);
             window.WAPI._newMessagesBuffer.push(message);
