@@ -16,7 +16,7 @@ def run():
     driver.wait_for_login(600)
     print("Bot started")
 
-    # print (driver.get_my_contacts())
+    print (driver.get_my_contacts())
     time.sleep(5)
     driver.subscribe_new_messages(NewMessageObserver())
     print("Waiting for new messages...")
