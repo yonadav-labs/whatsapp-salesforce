@@ -1,0 +1,4 @@
+pkill firefox
+pkill python
+pkill geckodriver
+nohup python read_message.py &
