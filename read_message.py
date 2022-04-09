@@ -17,6 +17,7 @@ def run():
     print("Bot started")
 
     # print (driver.get_my_contacts())
+    time.sleep(5)
     driver.subscribe_new_messages(NewMessageObserver())
     print("Waiting for new messages...")
     driver.screenshot('./ref/12.png')
