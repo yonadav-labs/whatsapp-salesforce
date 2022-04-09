@@ -12,7 +12,7 @@ def run():
     driver = WhatsAPIDriver(extra_params={ 'executable_path': './geckodriver' }, loadstyles=True, headless=True)
     print("Waiting for QR")
     # driver.get_qr('qr.png')   # does not work 
-    driver.screenshot('img/qr.png')
+    driver.screenshot('./ref/qr.png')
     driver.wait_for_login(600)
     print("Bot started")
 
